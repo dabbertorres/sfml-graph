@@ -17,8 +17,9 @@ int main(int argc, char** argv)
     sf::View view{{0.f, 0.f}, {20.f, -20.f}};
     window.setView(view);
 
-    sfx::Graph graph{ -10.f, 10.f, 0.1f,
-                      -10.f, 10.f, 0.1f };
+    sfx::Graph graph{ -10.f, 10.f, 0.2f,
+                      -10.f, 10.f, 0.2f,
+                      true, sf::Color::Red, sf::Color::White };
     graph.render([](float x) { return x * x; });
 
     while(window.isOpen())
@@ -46,7 +47,7 @@ int main(int argc, char** argv)
             }
         }
 
-        window.clear(sf::Color::Green);
+        window.clear();
         window.draw(graph);
         window.display();
     }
