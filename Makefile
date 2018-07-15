@@ -1,18 +1,21 @@
 CXXC     ?= g++
 CXXFLAGS += -std=c++17 -Wall -Wextra
-LDFLAGS  += -lsfml-graphics -lsfml-window -lsfml-system
+LDFLAGS  += -lsfml-graphics -lsfml-window -lsfml-system -ldl
 
 .PHONY: clean
 
-test: test.o Graph.o
-	$(CXXC) -o $@ $(LDFLAGS) $^
+test: test.o Space.o Function.o
+	$(CXXC) -o $@ $^ $(LDFLAGS)
 
-test.o: test.cpp Graph.hpp
+test.o: test.cpp Space.hpp
 	$(CXXC) $(CXXFLAGS) -c -o $@ $<
 
-Graph.o: Graph.cpp Graph.hpp
+Space.o: Space.cpp Space.hpp Function.hpp
+	$(CXXC) $(CXXFLAGS) -c -o $@ $<
+
+Function.o: Function.cpp Function.hpp
 	$(CXXC) $(CXXFLAGS) -c -o $@ $<
 
 clean:
-	@rm -f test test.o Graph.o
+	@rm -f test test.o Space.o Function.o
 

@@ -7,20 +7,19 @@
 #include <SFML/Graphics/View.hpp>
 #include <SFML/Window/Event.hpp>
 
-#include "Graph.hpp"
+#include "Space.hpp"
 
 int main(int argc, char** argv)
 {
-    sf::RenderWindow window{{1280, 720}, "Graph"};
+    sf::RenderWindow window{{1280, 720}, "Graphing Test"};
     window.setVerticalSyncEnabled(true);
 
-    sf::View view{{0.f, 0.f}, {20.f, -20.f}};
+    sf::View view{{0.f, 0.f}, {20.f, 20.f}};
     window.setView(view);
 
-    sfx::Graph graph{ -10.f, 10.f, 0.2f,
-                      -10.f, 10.f, 0.2f,
-                      true, sf::Color::Red, sf::Color::White };
-    graph.render([](float x) { return x * x; });
+    sfx::graph::Space space{ {-10.f, -10.f, 20.f, 20.f}, { 0.5f, 1.0f }, { 0.01f, 0.01f }, sf::Color::White};
+    space.render([](float x) { return x * x; }, sf::Color::Red);
+    space.render([](float x) { return -(x * x); }, sf::Color::Green);
 
     while(window.isOpen())
     {
@@ -48,7 +47,7 @@ int main(int argc, char** argv)
         }
 
         window.clear();
-        window.draw(graph);
+        window.draw(space);
         window.display();
     }
 
