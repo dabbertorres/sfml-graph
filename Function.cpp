@@ -55,7 +55,7 @@ void Function::setColor(sf::Color c)
     size_t count = buffer.getVertexCount();
 
     glBindBuffer(GL_ARRAY_BUFFER, handle);
-    sf::Vertex* data = static_cast<sf::Vertex*>(glMapBuffer(GL_ARRAY_BUFFER, GL_MAP_READ_BIT | GL_MAP_WRITE_BIT));
+    sf::Vertex* data = static_cast<sf::Vertex*>(glMapBuffer(GL_ARRAY_BUFFER, GL_READ_WRITE));
 
     for (size_t i = 0; i < count; i++)
         data->color = color;

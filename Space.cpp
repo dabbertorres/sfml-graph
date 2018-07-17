@@ -22,8 +22,8 @@ Space::Space(sf::FloatRect area, sf::Vector2f tickStep, sf::Vector2f plotStep, s
 {
     // 2 verts per axis, plus 2 verts per tick (step) mark
     std::vector<sf::Vertex> bgVerts;
-    bgVerts.reserve(4 + static_cast<size_t>(std::ceil((area.width + 1) / tickStep.x)) * 2
-        + static_cast<size_t>(std::ceil((area.height + 1) / tickStep.y)) * 2);
+    bgVerts.reserve(2 * (2 + static_cast<size_t>(std::ceil((area.width + 1) / tickStep.x))
+        + static_cast<size_t>(std::ceil((area.height + 1) / tickStep.y))));
 
     if (!axes.create(bgVerts.capacity()))
         return;
@@ -61,12 +61,6 @@ Function& Space::render(Function::Signature callable, sf::Color funcColor, bool 
     return funcs.back();
 }
 
-Function& Space::render(Function f)
-{
-    funcs.push_back(f);
-    return funcs.back();
-}
-
 void Space::remove(const Function& f)
 {
     funcs.remove(f);
@@ -75,11 +69,11 @@ void Space::remove(const Function& f)
 void Space::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     states.transform *= getTransform();
-    // flip the y-axis
+
+    // flip the y-axis so the functions are plotted in a user-expected manner
     states.transform.scale(1.f, -1.f);
 
     target.draw(axes, states);
-
     for (auto& f : funcs)
         target.draw(f, states);
 }

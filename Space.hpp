@@ -29,7 +29,6 @@ public:
     virtual ~Space() = default;
 
     Function& render(Function::Signature callable, sf::Color color = sf::Color::White, bool line = true);
-    Function& render(Function f);
     void remove(const Function& f);
 
 private:
