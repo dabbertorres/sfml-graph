@@ -58,7 +58,7 @@ void Function::setColor(sf::Color c)
     sf::Vertex* data = static_cast<sf::Vertex*>(glMapBuffer(GL_ARRAY_BUFFER, GL_READ_WRITE));
 
     for (size_t i = 0; i < count; i++)
-        data->color = color;
+        data[i].color = color;
 
     glUnmapBuffer(GL_ARRAY_BUFFER);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -100,12 +100,11 @@ void loadGL()
 
 #define GET_SYM(handle, sym) reinterpret_cast<decltype(sym)>(GET_SYM_FUNC(handle, #sym))
 
-#if defined(SFML_SYSTEM_LINUX) || defined(SFML_SYSTEM_MACOS)
     // symbols *should* already be loaded in our program. just need to find them
+#if defined(SFML_SYSTEM_LINUX) || defined(SFML_SYSTEM_MACOS)
     auto handle = dlopen(nullptr, RTLD_LAZY);
 #define GET_SYM_FUNC dlsym
 #elif defined(SFML_SYSTEM_WINDOWS)
-    // symbols *should* already be loaded in our program. just need to find them
     auto handle = GetModuleHandle(nullptr);
 #define GET_SYM_FUNC GetProcAddress
 #endif
